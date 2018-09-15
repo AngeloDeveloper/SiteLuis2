@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-br"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="description" content="Ferramenta para conferência dos números e resultados da Lotofácil">
+<meta name="keywords" content="Lotofácil, ferramenta, conferência, simulador, resultado, jogos, sorteio, prêmio, loteria, números, dezenas, concurso, acertos, lotofácil da independência">
+<meta name="author" content="mazusoft">
+<meta name="robots" content="index,follow">
+<meta name="viewport" content="width=device-width, initial-scale=0.80, minimum-scale=0.7, maximum-scale=1">
+<meta name="distribution" content="global">
+<meta name="revisit-after" content="1">
+<meta name="googlebot" content="all, index, follow">
+<link rel="icon" href="https://www.mazusoft.com.br/lotofacil/favicon.ico">
+<title>Lotofácil - Montar Jogo e Testar</title>
+
+<link href="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/lotofacil.css" rel="stylesheet" type="text/css">
+<link href="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/vtip.css" rel="stylesheet" type="text/css">
+<link href="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/jquery-ui.css" rel="stylesheet" type="text/css">
+<script async="" src="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/analytics.js"></script><script>
+function getNumber(objNumero,numero){
+	objMeuJogo = document.getElementById('meujogo');
+	objMsg = document.getElementById('aviso');
+	objParImpar = document.getElementById('parImpar');
+	objMsg.innerHTML = "";
+	$("#aviso").removeClass("alert alert-warning");
+	total = objMeuJogo.value.split(',');
+	//alert(objNumero.style.backgroundColor);
+	
+	if(objNumero.style.backgroundColor != 'rgb(255, 255, 255)'){ //alert('if 1');
+		objMeuJogo.value = removeNumber(total,numero); //objNumero.innerHTML
+		objNumero.style.backgroundColor = 'rgb(255, 255, 255)';
+	}else{
+		if(total.length < 18){
+			if(objNumero.style.backgroundColor == 'rgb(255, 255, 255)'){ //alert('if 2');
+				objNumero.style.backgroundColor = 'rgb(181, 201, 223)';  //alert(numero); //#B5C9DF
+				if(objMeuJogo.value != ''){
+					objMeuJogo.value += ","+numero;
+				}else{
+					objMeuJogo.value = numero;
+				}
+			}
+		}else{
+			objMsg.innerHTML = "Seu jogo já possui 18 números";
+		}
+	}
+
+	total = objMeuJogo.value.split(',');
+	var par = 0;
+	var impar = 0;
+	var soma = 0;
+	
+	for(i=0; i<total.length; i++){
+		num = total[i];
+		if(num) soma = soma+parseInt(num);
+		if(num%2==0) par++; else impar++;
+	}
+	
+	if(total == 0){ par = impar = 0; }
+	//alert(total);
+	
+	if((par == 7 && impar == 8) || (par == 8 && impar == 7))
+	result = "<b>Par:"+par+ " Impar:"+impar+"</b>"; 
+	else
+	result = "Par:"+par+ " Impar:"+impar;
+	
+	if((soma >= 170 && soma <= 220))
+	soma = " | <b>Soma:" +soma+ "</b>";
+	else
+	soma = " | Soma:" +soma;
+	
+	objParImpar.innerHTML = result;
+	
+	if(total.length > 14){
+		objMsg.innerHTML = "Seu jogo já possui "+total.length+" números";
+		$("#aviso").addClass("alert alert-warning");
+	}
+}
+
+function removeNumber(arr, valor){
+	str = "";
+	for(i=0;i<arr.length;i++){
+		if(arr[i] != valor){
+			str += arr[i]+",";
+		}
+	}
+	return str.substring(0,(str.length)-1);
+}
+
+function post(cmd) {
+	f = document.forms['loto'];
+	f.cmd.value = cmd;
+	erros = false;
+	if (erros == false)
+	f.submit();
+}
+</script>
+</head>
+<body>
+<div class="menuCt">
+<div class="menuTopo1">
+	<div class="menuTopo2">
+	<div class="logo"><a href="https://www.mazusoft.com.br/lotofacil/index.php"><img src="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/logo_lotofacil.png"></a></div>
+		<a target="_parent" id="login-resp" href="https://www.mazusoft.com.br/lotofacil/login.php"><img src="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/key.png" style="vertical-align:text-bottom" width="16" height="16">&nbsp;Login&nbsp;</a>
+		
+	<div class="menuTopo3">
+
+	</div>
+</div> 
+<div id="MainMenuHeight">
+	<div id="MainMenuCt" data-spy="affix" data-offset-top="45" class="affix-top">
+	<div id="MainMenu"> 
+	<nav class="menu">
+	<span class="menu-anchor"></span>
+	<a class="menu-resp" href="#">Menu</a>
+	</nav>
+	</div>
+	</div>
+	</div>
+</div><div id="Main">
+<form method="post" name="loto">
+<input value="9,8" name="meujogo" id="meujogo" size="35" style="display:none" autocomplete="off" type="text">
+<input name="cmd" type="hidden">
+
+<h1 class="titulo" style="padding: 6px 0px 11px 5px;">Montar Jogo e Testar Números</h1>
+
+<!-- Coluna 1 -->
+<div id="confere-col-1">
+	<div class="loto lotoConfere box_bg">
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'1')">01</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'2')">02</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'3')">03</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'4')">04</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'5')">05</div>
+	<br style="clear: both;">		<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'6')">06</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'7')">07</div>
+			<div class="loto" style="background: rgb(181, 201, 223) none repeat scroll 0% 0%;" onclick="getNumber(this,'8')">08</div>
+			<div class="loto" style="background: rgb(181, 201, 223) none repeat scroll 0% 0%;" onclick="getNumber(this,'9')">09</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'10')">10</div>
+	<br style="clear: both;">		<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'11')">11</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'12')">12</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'13')">13</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'14')">14</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'15')">15</div>
+	<br style="clear: both;">		<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'16')">16</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'17')">17</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'18')">18</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'19')">19</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'20')">20</div>
+	<br style="clear: both;">		<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'21')">21</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'22')">22</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'23')">23</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'24')">24</div>
+			<div class="loto" style="background:#FFFFFF" onclick="getNumber(this,'25')">25</div>
+	<br style="clear: both;">	<span id="parImpar">Par:1 Impar:1</span>
+	</div>
+	<br class="clear">
+
+<div id="aviso" style="min-height:30px; width: 220px;"></div>
+
+<span style="font-size:11px;">
+
+</span>
+</div>
+
+<!-- Coluna 2 --> 
+<div id="confere-col-2">
+	<div id="confere-resultado-1">Resultado: 0 </div>
+	<div id="confere-resultado-2">
+        </div>
+</div>
+  
+<!-- Coluna 3 -->  
+<div id="confere-col-3">
+    11 acertos: 0 <br>
+    12 acertos: 0 <br>
+    13 acertos: 0 <br>
+    14 acertos: 0 <br>
+    15 acertos: 0 <br>
+    <div style="padding-top:5px;">Total de acertos: <b>0</b></div>
+		<br><a href="https://www.mazusoft.com.br/lotofacil/confere.php?meujogo=">Link</a>	
+</div>
+
+<!-- Coluna 4 -->  
+<div id="confere-col-4">
+  <label for="btso"><input name="order" value="sorteio" onchange="this.form.submit()" id="btso" checked="checked" type="radio">Ordem de sorteio</label>
+  <label for="btac"><input name="order" value="acertos" onchange="this.form.submit()" id="btac" type="radio">Ordem de acertos</label>
+</div>
+
+</form>
+<div style="clear: both;"> </div>
+</div>
+
+<script type="text/javascript" src="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/jquery-2.js"></script>
+<script type="text/javascript" src="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/jquery-ui.js"></script>
+<script type="text/javascript" src="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/bootstrap-alert.js"></script>
+<script type="text/javascript" src="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/affix.js"></script>
+<script type="text/javascript" src="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/vtip.js"></script> 
+<script type="text/javascript" src="Lotof%C3%A1cil%20-%20Montar%20Jogo%20e%20Testar_arquivos/util.js"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-20755120-1', 'mazusoft.com.br');
+  ga('send', 'pageview');
+
+</script>
+
+</body></html>
